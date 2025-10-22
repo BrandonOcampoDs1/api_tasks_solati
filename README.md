@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -59,3 +60,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+=======
+# api_tasks_solati
+API RESTful para la gestión de tareas (CRUD) desarrollada en PHP, siguiendo principios SOLID y una arquitectura limpia basada en capas Services y Repositories. El proyecto implementa el patrón MVC, validaciones de datos, manejo adecuado de errores y persistencia en PostgreSQL, priorizando buenas prácticas de diseño y mantenibilidad del código.
+>>>>>>> 43545adb4423f272040b20cc8cf3d4a336931ec8
