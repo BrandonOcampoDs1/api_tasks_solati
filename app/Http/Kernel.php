@@ -9,6 +9,7 @@ class Kernel extends HttpKernel
     protected $middleware = [
         // Global middleware
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\ApiExceptionHandler::class
     ];
 
     protected $middlewareGroups = [

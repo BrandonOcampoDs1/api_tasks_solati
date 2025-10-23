@@ -1,33 +1,32 @@
 <?php
 
 namespace App\Services;
-use App\Repositories\Contracts\TaskRepositoryInterface;
+
+use App\Repositories\Contracts\TaskReadableInterface;
+use App\Repositories\Contracts\TaskWritableInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskService
 {
-    private TaskRepositoryInterface $repository;
+    private TaskReadableInterface $readRepository;
+    private TaskWritableInterface $writeRepository;
 
-    public function __construct(TaskRepositoryInterface $repository)
+    public function __construct(TaskReadableInterface $readRepository, TaskWritableInterface $writeRepository)
     {
-        $this->repository = $repository;
+        $this->readRepository = $readRepository;
+        $this->writeRepository = $writeRepository;
     }
 
     public function getAllTasks()
     {
-        $tasks = $this->repository->all();
+        $tasks = $this->readRepository->all();
 
-        // Si no hay tareas, devolvemos colección vacía
-        if ($tasks->isEmpty()) {
-            return collect(); 
-        }
-
-        return $tasks;
+        return $tasks->isEmpty() ? collect() : $tasks;
     }
 
     public function getTask(int $id)
     {
-        $task = $this->repository->find($id);
+        $task = $this->readRepository->find($id);
 
         if (!$task) {
             throw new ModelNotFoundException('Tarea no encontrada');
@@ -38,28 +37,32 @@ class TaskService
 
     public function createTask(array $data)
     {
-        return $this->repository->create($data);
+        return $this->writeRepository->create($data);
     }
 
     public function updateTask(int $id, array $data)
     {
-        $task = $this->repository->find($id);
+        $task = $this->readRepository->find($id);
 
         if (!$task) {
             throw new ModelNotFoundException('Tarea no encontrada para actualizar');
         }
 
-        return $this->repository->update($id, $data);
+        if (empty($data)) {
+            throw new \InvalidArgumentException('No se enviaron campos válidos para actualizar');
+        }
+
+        return $this->writeRepository->update($id, $data);
     }
 
     public function deleteTask(int $id)
     {
-        $task = $this->repository->find($id);
+        $task = $this->readRepository->find($id);
 
         if (!$task) {
             throw new ModelNotFoundException('Tarea no encontrada para eliminar');
         }
 
-        return $this->repository->delete($id);
+        return $this->writeRepository->delete($id);
     }
 }

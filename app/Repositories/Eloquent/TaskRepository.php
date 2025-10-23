@@ -3,9 +3,10 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Task;
-use App\Repositories\Contracts\TaskRepositoryInterface;
+use App\Repositories\Contracts\TaskReadableInterface;
+use App\Repositories\Contracts\TaskWritableInterface;
 
-class TaskRepository implements TaskRepositoryInterface
+class TaskRepository implements TaskReadableInterface, TaskWritableInterface
 {
     public function all()
     {
@@ -14,7 +15,7 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function find(int $id)
     {
-        return Task::findOrFail($id);
+        return Task::find($id);
     }
 
     public function create(array $data)
@@ -24,14 +25,17 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function update(int $id, array $data)
     {
-        $task = $this->find($id);
+        $task = Task::find($id);
+        if (!$task) return null;
+
         $task->update($data);
         return $task;
     }
 
+
     public function delete(int $id)
     {
-        $task = $this->find($id);
+        $task = Task::findOrFail($id);
         return $task->delete();
     }
 }

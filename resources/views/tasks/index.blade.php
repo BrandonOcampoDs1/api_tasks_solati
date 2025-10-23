@@ -11,7 +11,15 @@
 </head>
 
 <body class="bg-gray-100 p-10 flex flex-col items-center justify-center min-h-screen">
+    <script type="module">
+        import {
+            getToken
+        } from "{{ asset('js/auth.js') }}";
 
+        if (!getToken()) {
+            window.location.href = "/";
+        }
+    </script>
     <h1 class="text-5xl font-extrabold mb-10 text-gray-800">Gestor de Tareas</h1>
     <span class="text-gray-500 text-sm italic m-5">
         Arrastre una tarea para completarla o ponerla en pendiente, o edítela directamente
@@ -23,8 +31,7 @@
             <form id="taskForm"
                 class="bg-white p-8 rounded-3xl shadow-xl flex flex-col justify-between gap-4 w-full max-w-sm">
                 <input name="title" placeholder="Título"
-                    class="border border-gray-300 w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    required>
+                    class="border border-gray-300 w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
                 <textarea name="description" placeholder="Descripción"
                     class="border border-gray-300 w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
                 <div class="flex gap-3 items-center mt-4">
@@ -81,7 +88,8 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/tasks.js') }}"></script>
+    {{-- <script src="{{ asset('js/tasks.js') }}"></script> --}}
+    <script type="module" src="{{ asset('js/main.js') }}"></script>
 </body>
 
 </html>

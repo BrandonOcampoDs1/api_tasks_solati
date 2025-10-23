@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         ApiClient::create([
-            'name' => 'Brandon',
-            'identifier' => 1000290455,
+            'name' => 'Desarrollador',
+            'identifier' => 123456789,
             'token' => Str::random(60),
         ]);
     }

@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskStoreRequest;
-use App\Http\Requests\TaskStoreInfoRequest;
+use App\Http\Requests\TaskUpdateRequest;
 use App\Http\Resources\TaskResource;
 use App\Services\TaskService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Traits\ApiResponse;
 
 class TaskController extends Controller
 {
+    use ApiResponse;
+
     private TaskService $service;
 
     public function __construct(TaskService $service)
@@ -22,35 +25,35 @@ class TaskController extends Controller
     public function index(): JsonResponse
     {
         $tasks = $this->service->getAllTasks();
-
-        return $tasks->isEmpty()
-            ? response()->json(['message' => 'No hay tareas registradas', 'data' => []])
-            : response()->json(TaskResource::collection($tasks));
+        if ($tasks->isEmpty()) {
+            return $this->successResponse([], 'No hay tareas registradas', 200);
+        }
+        return $this->successResponse(TaskResource::collection($tasks), 'Tareas listadas', 200);
     }
 
-    public function store(TaskStoreRequest $request): TaskResource
+    public function store(TaskStoreRequest $request): JsonResponse
     {
         $task = $this->service->createTask($request->validated());
-        return new TaskResource($task);
+        return $this->successResponse(new TaskResource($task), 'Tarea creada', 201);
     }
 
-    public function show($id): JsonResponse|TaskResource
+    public function show($id): JsonResponse
     {
         try {
             $task = $this->service->getTask($id);
-            return new TaskResource($task);
+            return $this->successResponse(new TaskResource($task), 'Tarea obtenida', 200);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Tarea no encontrada'], 404);
+            return $this->errorResponse('Tarea no encontrada', null, 404);
         }
     }
 
-    public function update(TaskStoreInfoRequest $request, $id): JsonResponse|TaskResource
+    public function update(TaskUpdateRequest $request, $id): JsonResponse
     {
         try {
             $task = $this->service->updateTask($id, $request->validated());
-            return new TaskResource($task);
+            return $this->successResponse(new TaskResource($task), 'Tarea actualizada', 200);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Tarea no encontrada'], 404);
+            return $this->errorResponse('Tarea no encontrada', null, 404);
         }
     }
 
@@ -58,9 +61,10 @@ class TaskController extends Controller
     {
         try {
             $this->service->deleteTask($id);
-            return response()->json(['message' => 'Tarea eliminada'], 200);
+            // 204 sin contenido es válido; para mantener formato devolvemos mensaje ok
+            return $this->successResponse(null, 'Tarea eliminada', 200);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Tarea no encontrada'], 404);
+            return $this->errorResponse('Tarea no encontrada', null, 404);
         }
     }
 }
