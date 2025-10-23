@@ -17,6 +17,12 @@ El proyecto sigue principios **SOLID** y el patrón de diseño **Repository**, c
 
 ---
 
+## 📥 Descargar Base de Datos
+
+Puedes descargar el archivo de respaldo de la base de datos desde el siguiente enlace:
+
+👉 [Descargar psql_tasks.sql](./database/psql_tasks.sql)
+
 ## 🧱 Arquitectura y patrones usados
 
 ### 🔹 Patrón MVC + Repository
