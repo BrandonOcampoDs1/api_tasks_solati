@@ -10,7 +10,6 @@ trait RejectUnknownFields
     {
         $ignored = ['_token', '_method', 'api_client'];
 
-        // Obtener SOLO lo que envió el usuario, no todo lo que carga Laravel
         $inputKeys = array_keys($this->getInputSource()->all());
 
         $filtered = array_diff($inputKeys, $ignored);

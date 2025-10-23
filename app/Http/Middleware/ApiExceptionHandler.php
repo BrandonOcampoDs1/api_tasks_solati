@@ -21,7 +21,6 @@ class ApiExceptionHandler
         try {
             return $next($request);
         } catch (ValidationException $e) {
-            // Formato uniforme para errores de validación
             $errors = $e->errors();
             return $this->errorResponse('Error de validación', $errors, 422);
         } catch (ModelNotFoundException $e) {
@@ -29,11 +28,9 @@ class ApiExceptionHandler
         } catch (AuthenticationException $e) {
             return $this->errorResponse('No autenticado', null, 401);
         } catch (QueryException $e) {
-            // Opcional: no exponer detalles sensibles en producción
             $msg = app()->environment('production') ? 'Error en la base de datos' : $e->getMessage();
             return $this->errorResponse($msg, null, 500);
         } catch (Throwable $e) {
-            // Fallback: devuelve 500 con mensaje controlado
             $msg = app()->environment('production') ? 'Error interno del servidor' : $e->getMessage();
             $errors = app()->environment('production') ? null : [
                 'exception' => get_class($e),

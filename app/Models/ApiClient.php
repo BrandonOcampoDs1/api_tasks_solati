@@ -9,5 +9,5 @@ class ApiClient extends Model
 {
     use HasApiTokens;
 
-    protected $fillable = ['name', 'identifier', 'token']; // Ej: nombre y cedula
+    protected $fillable = ['name', 'identifier', 'token'];
 }

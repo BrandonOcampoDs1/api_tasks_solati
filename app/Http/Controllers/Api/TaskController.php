@@ -61,7 +61,6 @@ class TaskController extends Controller
     {
         try {
             $this->service->deleteTask($id);
-            // 204 sin contenido es válido; para mantener formato devolvemos mensaje ok
             return $this->successResponse(null, 'Tarea eliminada', 200);
         } catch (ModelNotFoundException $e) {
             return $this->errorResponse('Tarea no encontrada', null, 404);
