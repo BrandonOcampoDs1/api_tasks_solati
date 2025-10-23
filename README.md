@@ -60,15 +60,8 @@ npm install
 ```
 
 ### 3️⃣ Configurar entorno
-
 ```bash
-cp .env.example .env
-php artisan key:generate
-```
-
-Configura la conexión a base de datos en el `.env` (PostgreSQL) PGADMIN 4.
-
-```bash
+DATOS PARA LA CONECCIÓN ESTOS USE YO
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
@@ -77,7 +70,14 @@ DB_USERNAME=postgres
 DB_PASSWORD=12345678
 ```
 
-### 4️⃣ Ejecutar migraciones y seeders
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Configura la conexión a base de datos en el `.env` (PostgreSQL) PGADMIN 4.
+
+### 4️⃣ Ejecutar migraciones y seeders para generar tablas y datos de prueba
 
 ```bash
 php artisan migrate --seed
