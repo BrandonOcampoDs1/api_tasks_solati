@@ -34,13 +34,20 @@ return [
     | Supported: "session"
     |
     */
-
     'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'api' => [
+            'driver' => 'token', 
+            'provider' => 'api_clients',
+            'hash' => false,
+        ],
     ],
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -60,16 +67,12 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'api_clients' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\ApiClient::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

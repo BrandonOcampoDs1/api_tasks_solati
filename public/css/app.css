@@ -1,0 +1,6 @@
+.task-draggable {
+    cursor: grab; /* manito abierta */
+}
+.task-dragging {
+    cursor: grabbing; /* manito cerrada mientras arrastras */
+}
